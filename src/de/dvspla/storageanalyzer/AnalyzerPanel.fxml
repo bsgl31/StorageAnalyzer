@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dvspla.storageanalyzer.AnalyzerPanelController">
+   <children>
+      <Button fx:id="btnLoad" layoutX="13.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClick" text="Laden" />
+      <Button fx:id="btnRemove" layoutX="293.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick" prefHeight="25.0" prefWidth="35.0" text="-" />
+      <Button fx:id="btnAdd" layoutX="251.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick" prefHeight="25.0" prefWidth="35.0" text="+" />
+      <TableView fx:id="tablePathlist" layoutX="13.0" layoutY="46.0" prefHeight="571.0" prefWidth="315.0">
+        <columns>
+          <TableColumn fx:id="clmPath" editable="false" prefWidth="300.0" resizable="false" sortType="DESCENDING" text="Pfad" />
+        </columns>
+      </TableView>
+      <TreeTableView fx:id="mainSearch" layoutX="340.0" layoutY="46.0" prefHeight="571.0" prefWidth="810.0" showRoot="false">
+        <columns>
+          <TreeTableColumn fx:id="columnSearchPath" editable="false" prefWidth="582.0" resizable="false" sortable="false" text="Pfad" />
+            <TreeTableColumn fx:id="columnSearchBytes" minWidth="0.0" prefWidth="0.0" resizable="false" text="Bytes" visible="false" />
+          <TreeTableColumn fx:id="columnSearchSize" editable="false" minWidth="0.0" prefWidth="86.0" resizable="false" sortType="DESCENDING" sortable="false" text="Größe" />
+            <TreeTableColumn fx:id="columnSearchUsage" editable="false" maxWidth="276.0" prefWidth="126.0" resizable="false" sortable="false" text="Verwendung" />
+        </columns>
+      </TreeTableView>
+      <Button fx:id="btnSort" layoutX="1070.0" layoutY="15.0" mnemonicParsing="false" onAction="#onClick" prefWidth="80.0" text="Sortieren" />
+      <Button fx:id="btnLoadDefaultPaths" layoutX="69.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClick" text="Standardpfade" />
+      <ProgressBar fx:id="pbLoading" layoutX="342.0" layoutY="26.0" prefHeight="7.0" prefWidth="200.0" progress="0.0" />
+      <Label fx:id="labelLoadingInfo" layoutX="548.0" layoutY="20.0" text="0%" />
+      <ProgressBar fx:id="pbLoadingAnimation" layoutX="573.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="7.0" prefWidth="48.0" progress="0.0" visible="false" />
+   </children>
+</AnchorPane>
