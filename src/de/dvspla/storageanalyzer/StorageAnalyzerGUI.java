@@ -10,9 +10,6 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.JMetroStyleClass;
 import jfxtras.styles.jmetro.Style;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 public class StorageAnalyzerGUI extends Application {
 
     public static Stage STAGE;
