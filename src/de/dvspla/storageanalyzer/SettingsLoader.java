@@ -46,7 +46,9 @@ public class SettingsLoader {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 Folder folder = new Folder(scanner.nextLine());
-                loadedFolders.add(folder);
+                if(folder.getFile() != null && folder.getFile().exists()) {
+                    loadedFolders.add(folder);
+                }
             }
             scanner.close();
         } catch (IOException ex) {
