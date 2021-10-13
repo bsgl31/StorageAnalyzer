@@ -25,7 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;

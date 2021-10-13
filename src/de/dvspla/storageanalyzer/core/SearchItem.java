@@ -20,7 +20,7 @@ public class SearchItem {
 
     public SearchItem() {
         this.file = null;
-        this.path = "(leer)";
+        this.path = "(empty)";
         this.size = "";
         this.usage = "";
     }
