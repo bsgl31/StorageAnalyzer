@@ -9,11 +9,23 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableRow;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 
+import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -165,10 +177,16 @@ public class AnalyzerPanelController implements Initializable {
             SearchItemLoader.LOADING.set(0);
 
             SearchItemLoader.progessBar(pbLoading, pbLoadingAnimation, labelLoadingInfo);
+            List<Folder> toRemove = new ArrayList<>();
             for (Folder folder : folders) {
-                if (folder.getFile().exists()) {
-                    new Thread(() -> root.getChildren().add(new SearchItemLoader(folder.getFile()).getMainItem())).start();
+                if (folder.getFile() == null || !folder.getFile().exists()) {
+                    toRemove.add(folder);
                 }
+                new Thread(() -> root.getChildren().add(new SearchItemLoader(folder.getFile()).getMainItem())).start();
+            }
+            if(toRemove.size() > 0) {
+                folderList.removeAll(toRemove);
+                new Thread(() -> JOptionPane.showMessageDialog(null, "Removed " + toRemove.size() + " unknown folder(s)", "Information", JOptionPane.INFORMATION_MESSAGE)).start();
             }
 
             Platform.runLater(() -> mainSearch.setRoot(root));
