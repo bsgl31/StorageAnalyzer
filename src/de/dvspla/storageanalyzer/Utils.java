@@ -64,7 +64,7 @@ public class Utils {
     }
 
     private static void showError() {
-        JOptionPane.showMessageDialog(null, "Es ist ein Fehler aufgetreten.", "Meldung", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "An error has occurred.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }

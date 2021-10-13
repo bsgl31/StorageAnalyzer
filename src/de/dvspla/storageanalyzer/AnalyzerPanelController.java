@@ -63,15 +63,15 @@ public class AnalyzerPanelController implements Initializable {
                     return;
                 }
 
-                MenuItem openInExplorer = new MenuItem("Im Explorer auswählen");
+                MenuItem openInExplorer = new MenuItem("Select in Explorer");
                 openInExplorer.setOnAction(event -> Utils.selectFileInExplorer(row.getItem().getFile()));
 
                 MenuItem open;
                 if(item.getFile().isDirectory()) {
-                    open = new MenuItem("Im Explorer öffnen");
+                    open = new MenuItem("Open in Explorer");
                     open.setOnAction(event -> Utils.openFileInExplorer(item.getFile()));
                 } else {
-                    open = new MenuItem("Datei öffnen");
+                    open = new MenuItem("Open File");
                     open.setOnAction(event -> Utils.openFile(item.getFile()));
                 }
 
@@ -86,10 +86,10 @@ public class AnalyzerPanelController implements Initializable {
             final TableRow<Folder> row = new TableRow<>();
             final ContextMenu rowMenu = new ContextMenu();
 
-            MenuItem loadThis = new MenuItem("Nur diesen Pfad laden");
+            MenuItem loadThis = new MenuItem("Load this Path only");
             loadThis.setOnAction(event -> load(Collections.singletonList(row.getItem())));
 
-            MenuItem remove = new MenuItem("Entfernen");
+            MenuItem remove = new MenuItem("Remove");
             remove.setOnAction(event -> {
                 tablePathlist.getItems().remove(row.getItem());
                 tablePathlist.getSelectionModel().clearSelection();

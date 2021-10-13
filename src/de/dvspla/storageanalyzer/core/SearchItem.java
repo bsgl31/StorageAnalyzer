@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SearchItem {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     private final File file;
     private final String path, usage;

@@ -6,12 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class StorageAnalyzer {
 
     public static void main(String[] args) {
         if(args.length == 1 && args[0].equals("java8")) {
+            Locale.setDefault(Locale.US);
             if(!System.getProperty("java.version").startsWith("1.8")) {
                 JOptionPane.showMessageDialog(null, "Invalid Java JRE/JDK version. Please execute the\nprogram again and select the Java 8 directory.", "Error", JOptionPane.ERROR_MESSAGE);
                 File file = new File("/" + System.getenv("APPDATA") + "/StorageAnalyzer/.javapath");
@@ -47,7 +49,7 @@ public class StorageAnalyzer {
                     String pathString = scanner.nextLine();
                     javaDir = new File(pathString);
                     if(isInvalidJavaDir(javaDir)) {
-                        showInvalidJavaDialog();
+                        JOptionPane.showMessageDialog(null, "Invalid Java 8 directory.\nPlease select a Java 8 JDK/JRE directory.", "Error", JOptionPane.ERROR_MESSAGE);
                         selectJavaPath(pathFile);
                         javaDir = null;
                     }
@@ -63,10 +65,10 @@ public class StorageAnalyzer {
             try {
                 executeJava8(path, file.getAbsolutePath());
             } catch (Throwable ex) {
-                JOptionPane.showMessageDialog(null, "Invalid java.exe");
+                JOptionPane.showMessageDialog(null, "Invalid java.exe", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IOException | URISyntaxException ex) {
-            JOptionPane.showMessageDialog(null, "An error occured while attempting to execute the program:\n" + Arrays.toString(ex.getStackTrace()));
+            JOptionPane.showMessageDialog(null, "An error occured while attempting to execute the program:\n" + Arrays.toString(ex.getStackTrace()), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -81,7 +83,7 @@ public class StorageAnalyzer {
     }
 
     private static void selectJavaPath(File pathFile) throws IOException {
-        JFileChooser fileChooser = new JFileChooser("C:\\Program Files\\Java\\jdk1.8.0_291\\");
+        JFileChooser fileChooser = new JFileChooser("C:\\Program Files\\Java\\");
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.setDialogTitle("Select Java 8 Directory");
         fileChooser.setApproveButtonText("Select");
@@ -100,10 +102,6 @@ public class StorageAnalyzer {
         FileWriter writer = new FileWriter(pathFile);
         writer.append(f.getAbsolutePath());
         writer.close();
-    }
-
-    private static void showInvalidJavaDialog() {
-        JOptionPane.showMessageDialog(null, "Invalid Java 8 directory.\nPlease select a Java 8 JDK/JRE directory.");
     }
 
 }
