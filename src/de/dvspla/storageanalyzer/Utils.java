@@ -1,7 +1,7 @@
 package de.dvspla.storageanalyzer;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -53,7 +53,7 @@ public class Utils {
 
     public static void selectFileInExplorer(File file) {
         try {
-            Runtime.getRuntime().exec("explorer.exe /select," + file.getAbsolutePath());
+            Runtime.getRuntime().exec("explorer.exe /select, \"" + file.getAbsolutePath() + "\"");
         } catch (IOException ex) {
             showError();
         }
@@ -61,7 +61,7 @@ public class Utils {
 
     public static void openFileInExplorer(File file) {
         try {
-            Runtime.getRuntime().exec("explorer.exe /open," + file.getAbsolutePath());
+            Runtime.getRuntime().exec("explorer.exe /open, \"" + file.getAbsolutePath() + "\"");
         } catch (IOException ex) {
             showError();
         }
