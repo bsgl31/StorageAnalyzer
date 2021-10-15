@@ -66,10 +66,7 @@ public class SearchItemLoader {
         long bytes;
 
         File[] files = file.listFiles();
-        if(files == null) {
-            bytes = file.length();
-            mainItem.setGraphic(getEmptyIcon());
-        } else if(files.length == 0) {
+        if(files == null || files.length == 0) {
             bytes = file.length();
             mainItem.setGraphic(getEmptyIcon());
         } else {
