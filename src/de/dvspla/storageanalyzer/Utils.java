@@ -1,5 +1,9 @@
 package de.dvspla.storageanalyzer;
 
+import de.dvspla.storageanalyzer.core.SearchItem;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableView;
+
 import javax.swing.JOptionPane;
 import java.awt.Desktop;
 import java.io.File;
@@ -69,6 +73,38 @@ public class Utils {
 
     private static void showError() {
         JOptionPane.showMessageDialog(null, "An error has occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void deleteFile(File file) {
+        if (!file.delete()) {
+            showError();
+        }
+    }
+
+    public static void deleteDirectory(File file) {
+        File[] files = file.listFiles();
+        if(files == null || files.length == 0) return;
+        for(File f : files) {
+            if(f.isDirectory()) {
+                deleteDirectory(f);
+                continue;
+            }
+            f.delete();
+        }
+    }
+
+    private static void updateSize(TreeItem<SearchItem> parent, long size) {
+        parent.getValue().setSize(parent.getValue().getBytes() - size);
+        if(parent.getParent() != null) {
+            updateSize(parent.getParent(), size);
+        }
+    }
+
+    public static void removeSelectedAndUpdateSize(TreeTableView<SearchItem> view) {
+        TreeItem<SearchItem> item = view.getSelectionModel().getSelectedItem();
+        TreeItem<SearchItem> parent = item.getParent();
+        updateSize(parent, item.getValue().getBytes());
+        parent.getChildren().remove(item);
     }
 
 }
