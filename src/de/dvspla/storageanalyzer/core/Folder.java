@@ -2,6 +2,9 @@ package de.dvspla.storageanalyzer.core;
 
 import java.io.File;
 
+/**
+ * Klasse die einen Ordner repräsentiert.
+ */
 public class Folder {
 
     private final File file;

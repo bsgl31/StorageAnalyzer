@@ -12,12 +12,12 @@ import java.util.Scanner;
 public class StorageAnalyzer {
 
     public static void main(String[] args) {
-        if(args.length == 1 && args[0].equals("java8")) {
+        if (args.length == 1 && args[0].equals("java8")) {
             Locale.setDefault(Locale.US);
-            if(!System.getProperty("java.version").startsWith("1.8")) {
+            if (!System.getProperty("java.version").startsWith("1.8")) {
                 JOptionPane.showMessageDialog(null, "Invalid Java JRE/JDK version. Please execute the\nprogram again and select the Java 8 directory.", "Error", JOptionPane.ERROR_MESSAGE);
                 File file = new File("/" + System.getenv("APPDATA") + "/StorageAnalyzer/.javapath");
-                if(file.exists()){
+                if (file.exists()) {
                     file.delete();
                 }
                 return;
@@ -31,8 +31,8 @@ public class StorageAnalyzer {
             String path;
 
             File pathFile = new File("/" + System.getenv("APPDATA") + "/StorageAnalyzer/.javapath");
-            if(!pathFile.exists()) {
-                if(!pathFile.getParentFile().exists()) {
+            if (!pathFile.exists()) {
+                if (!pathFile.getParentFile().exists()) {
                     pathFile.getParentFile().mkdirs();
                 }
                 pathFile.createNewFile();
@@ -42,20 +42,19 @@ public class StorageAnalyzer {
             }
 
             Scanner scanner;
-            File javaDir= null;
-            while(javaDir == null) {
+            File javaDir = null;
+            while (javaDir == null) {
                 scanner = new Scanner(pathFile);
-                if(scanner.hasNextLine()) {
+                if (scanner.hasNextLine()) {
                     String pathString = scanner.nextLine();
                     javaDir = new File(pathString);
-                    if(isInvalidJavaDir(javaDir)) {
+                    if (isInvalidJavaDir(javaDir)) {
                         JOptionPane.showMessageDialog(null, "Invalid Java 8 directory.\nPlease select a Java 8 JDK/JRE directory.", "Error", JOptionPane.ERROR_MESSAGE);
                         selectJavaPath(pathFile);
                         javaDir = null;
                     }
                 } else {
                     selectJavaPath(pathFile);
-                    javaDir = null;
                 }
                 scanner.close();
             }
@@ -73,7 +72,7 @@ public class StorageAnalyzer {
     }
 
     private static boolean isInvalidJavaDir(File file) {
-        if(file == null) return true;
+        if (file == null) return true;
         File javaCheck = new File(file, "bin\\javaw.exe");
         return !javaCheck.exists();
     }
@@ -92,12 +91,12 @@ public class StorageAnalyzer {
 
         File f = fileChooser.getSelectedFile();
 
-        if(f == null || !f.exists() || !f.isDirectory()) {
+        if (f == null || !f.exists() || !f.isDirectory()) {
             System.exit(0);
             return;
         }
 
-        if(isInvalidJavaDir(f)) return;
+        if (isInvalidJavaDir(f)) return;
 
         FileWriter writer = new FileWriter(pathFile);
         writer.append(f.getAbsolutePath());

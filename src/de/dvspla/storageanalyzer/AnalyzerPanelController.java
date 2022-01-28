@@ -9,33 +9,15 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableRow;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.input.Mnemonic;
 import javafx.stage.DirectoryChooser;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AnalyzerPanelController implements Initializable {
 
@@ -74,7 +56,7 @@ public class AnalyzerPanelController implements Initializable {
             row.itemProperty().addListener((observable, oldValue, item) -> {
                 final ContextMenu rowMenu = new ContextMenu();
 
-                if(item == null || item.getFile() == null) {
+                if (item == null || item.getFile() == null) {
                     row.setContextMenu(null);
                     return;
                 }
@@ -83,7 +65,7 @@ public class AnalyzerPanelController implements Initializable {
                 openInExplorer.setOnAction(event -> Utils.selectFileInExplorer(row.getItem().getFile()));
 
                 MenuItem open, delete, hide = null;
-                if(item.getFile().isDirectory()) {
+                if (item.getFile().isDirectory()) {
                     open = new MenuItem("Open in Explorer");
                     open.setOnAction(event -> Utils.openFileInExplorer(item.getFile()));
 
@@ -91,7 +73,7 @@ public class AnalyzerPanelController implements Initializable {
                     delete.setOnAction(event -> {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Delete directory " + item.getFile().getName() + "?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> type = alert.showAndWait();
-                        if(type.isPresent() && type.get().equals(ButtonType.YES)) {
+                        if (type.isPresent() && type.get().equals(ButtonType.YES)) {
                             Utils.removeSelectedAndUpdateSize(mainSearch);
                             Utils.deleteDirectory(item.getFile()); // TODO SHOW WINDOW UNTIL DELETED & ASYNC
                         }
@@ -108,7 +90,7 @@ public class AnalyzerPanelController implements Initializable {
                     delete.setOnAction(event -> {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Delete file " + item.getFile().getName() + "?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> type = alert.showAndWait();
-                        if(type.isPresent() && type.get().equals(ButtonType.YES)) {
+                        if (type.isPresent() && type.get().equals(ButtonType.YES)) {
                             Utils.removeSelectedAndUpdateSize(mainSearch);
                             Utils.deleteFile(item.getFile());
                         }
@@ -117,7 +99,7 @@ public class AnalyzerPanelController implements Initializable {
                 }
 
                 rowMenu.getItems().addAll(openInExplorer, open, delete);
-                if(hide != null) {
+                if (hide != null) {
                     rowMenu.getItems().add(hide);
                 }
                 row.setContextMenu(rowMenu);
@@ -216,7 +198,7 @@ public class AnalyzerPanelController implements Initializable {
                 }
                 new Thread(() -> root.getChildren().add(new SearchItemLoader(folder.getFile()).getMainItem())).start();
             }
-            if(toRemove.size() > 0) {
+            if (toRemove.size() > 0) {
                 folderList.removeAll(toRemove);
                 new Thread(() -> JOptionPane.showMessageDialog(null, "Removed " + toRemove.size() + " unknown folder(s)", "Information", JOptionPane.INFORMATION_MESSAGE)).start();
             }

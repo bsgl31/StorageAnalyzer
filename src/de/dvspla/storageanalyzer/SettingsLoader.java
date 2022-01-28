@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class SettingsLoader {
 
     private static SettingsLoader instance;
+
     public static SettingsLoader getInstance() {
         return instance;
     }
@@ -46,7 +47,7 @@ public class SettingsLoader {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 Folder folder = new Folder(scanner.nextLine());
-                if(folder.getFile() != null && folder.getFile().exists()) {
+                if (folder.getFile() != null && folder.getFile().exists()) {
                     loadedFolders.add(folder);
                 }
             }
@@ -63,7 +64,7 @@ public class SettingsLoader {
     public void saveSettings() {
         try {
             FileWriter fr = new FileWriter(file);
-            for(Folder f : loadedFolders) {
+            for (Folder f : loadedFolders) {
                 fr.append(f.getPath()).append("\n");
             }
             fr.close();

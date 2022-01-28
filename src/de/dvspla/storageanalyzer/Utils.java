@@ -4,15 +4,11 @@ import de.dvspla.storageanalyzer.core.SearchItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 
-import javax.swing.JOptionPane;
-import java.awt.Desktop;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -83,9 +79,9 @@ public class Utils {
 
     public static void deleteDirectory(File file) {
         File[] files = file.listFiles();
-        if(files == null || files.length == 0) return;
-        for(File f : files) {
-            if(f.isDirectory()) {
+        if (files == null || files.length == 0) return;
+        for (File f : files) {
+            if (f.isDirectory()) {
                 deleteDirectory(f);
                 continue;
             }
@@ -95,7 +91,7 @@ public class Utils {
 
     private static void updateSize(TreeItem<SearchItem> parent, long size) {
         parent.getValue().setSize(parent.getValue().getBytes() - size);
-        if(parent.getParent() != null) {
+        if (parent.getParent() != null) {
             updateSize(parent.getParent(), size);
         }
     }

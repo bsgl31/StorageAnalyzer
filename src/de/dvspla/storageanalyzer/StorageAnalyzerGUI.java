@@ -15,7 +15,7 @@ public class StorageAnalyzerGUI extends Application {
     public static Stage STAGE;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("AnalyzerPanel.fxml"));
         primaryStage.setTitle("Storage Analyzer");
         primaryStage.setResizable(false);

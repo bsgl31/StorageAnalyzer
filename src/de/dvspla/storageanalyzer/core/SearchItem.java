@@ -31,10 +31,10 @@ public class SearchItem {
 
     public SearchItem(File file, boolean checkPar) {
         this.file = file;
-        if(checkPar) {
+        if (checkPar) {
             String pathString = file.getAbsolutePath();
-            if(pathString.endsWith("\\")) {
-                pathString = pathString.substring(0, pathString.length()-1);
+            if (pathString.endsWith("\\")) {
+                pathString = pathString.substring(0, pathString.length() - 1);
             }
             this.path = pathString;
         } else {
@@ -60,14 +60,14 @@ public class SearchItem {
 
     public void setSize(long bytes) {
         this.bytes = bytes;
-        if(bytes < 1024) {
+        if (bytes < 1024) {
             this.size = bytes + " B";
         } else if (bytes < 1_048_576) {
-            this.size = bytes/1024 + " KB";
+            this.size = bytes / 1024 + " KB";
         } else if (bytes < 1_073_741_824) {
-            this.size = Math.round(bytes/1_048_576.0 * 100) / 100.0 + " MB";
+            this.size = Math.round(bytes / 1_048_576.0 * 100) / 100.0 + " MB";
         } else {
-            this.size = Math.round(bytes/1_073_741_824.0 * 100) / 100.0 + " GB";
+            this.size = Math.round(bytes / 1_073_741_824.0 * 100) / 100.0 + " GB";
         }
     }
 

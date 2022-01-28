@@ -51,7 +51,6 @@ public class SearchItemLoader {
     }
 
 
-
     private static final Image FOLDER = new Image(SearchItemLoader.class.getResourceAsStream("icon/folder.png"));
     private static final Image FILE = new Image(SearchItemLoader.class.getResourceAsStream("icon/file.png"));
     private static final Image EMPTY = new Image(SearchItemLoader.class.getResourceAsStream("icon/empty.png"));
@@ -66,15 +65,15 @@ public class SearchItemLoader {
         long bytes;
 
         File[] files = file.listFiles();
-        if(files == null || files.length == 0) {
+        if (files == null || files.length == 0) {
             bytes = file.length();
             mainItem.setGraphic(getEmptyIcon());
         } else {
             AtomicLong size = new AtomicLong(0);
             Set<TreeItem<SearchItem>> treeItems = ConcurrentHashMap.newKeySet();
 
-            for(File f : files) {
-                if(f.isDirectory()) {
+            for (File f : files) {
+                if (f.isDirectory()) {
                     LOADING.getAndIncrement();
                     new Thread(() -> {
                         SearchItem searchItem = new SearchItem(f);
@@ -92,7 +91,7 @@ public class SearchItemLoader {
                 CUR_BYTES.addAndGet(f.length());
             }
 
-            while(LOADED.get() < LOADING.get()) {
+            while (LOADED.get() < LOADING.get()) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -101,7 +100,7 @@ public class SearchItemLoader {
             }
 
             Platform.runLater(() -> {
-                for(TreeItem<SearchItem> treeItem : treeItems) {
+                for (TreeItem<SearchItem> treeItem : treeItems) {
                     mainItem.getChildren().add(treeItem);
                 }
             });
