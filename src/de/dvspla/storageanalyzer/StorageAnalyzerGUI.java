@@ -10,6 +10,9 @@ import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.JMetroStyleClass;
 import jfxtras.styles.jmetro.Style;
 
+/**
+ * JavaFX Hauptklasse, die das GUI öffnet
+ */
 public class StorageAnalyzerGUI extends Application {
 
     public static Stage STAGE;
@@ -31,6 +34,8 @@ public class StorageAnalyzerGUI extends Application {
 
         StorageAnalyzerGUI.STAGE = primaryStage;
 
+        // Sobald das Programm geschlossen wird, werden die Einstellungen gespeichert. Währen das Programm läuft
+        // werden sie nicht in eine Datei permanent gespeichert.
         primaryStage.setOnCloseRequest(event -> SettingsLoader.getInstance().saveSettings());
     }
 

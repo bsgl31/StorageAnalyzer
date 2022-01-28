@@ -4,20 +4,24 @@ import de.dvspla.storageanalyzer.core.SearchItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Utils {
 
     /**
-     * Berechnet die Gesamtgröße eines Pfades und dessen Dateien/Ordner rekursiv
-     * @param file Zu berechnender Pfad
-     * @return Gesamtgrößer des übergebenen Pfades in bytes
+     * Wird vor dem eigentlichen Einlesen der Dateien benutzt, um grob die Größe aller Dateien zu erhalten, damit der Fortschrittsbalken richtig berechnet werden kann.
+     * @param file Ordner
+     * @return Die größer aller Dateien, rekursiv, ausgehend von dem übergebenen Ordner in bytes.
      */
     public static long getFileSize(File file) {
         final AtomicLong amount = new AtomicLong(0);
@@ -47,10 +51,7 @@ public class Utils {
         return amount.get();
     }
 
-    /**
-     * Öffnet die übergebene Datei.
-     * @param file Zu öffnende Datei
-     */
+
     public static void openFile(File file) {
         try {
             Desktop.getDesktop().open(file);
@@ -59,10 +60,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Öffnet den übergeordneten Ordner der übergebenen Datei und wählt sie im Explorer an.
-     * @param file Auszuwählende Datei
-     */
     public static void selectFileInExplorer(File file) {
         try {
             Runtime.getRuntime().exec("explorer.exe /select, \"" + file.getAbsolutePath() + "\"");
@@ -71,10 +68,6 @@ public class Utils {
         }
     }
 
-    /**
-     * Öffnet bzw. führt die übergebene Datei aus.
-     * @param file Auszuführende Datei
-     */
     public static void openFileInExplorer(File file) {
         try {
             Runtime.getRuntime().exec("explorer.exe /open, \"" + file.getAbsolutePath() + "\"");
@@ -87,10 +80,6 @@ public class Utils {
         JOptionPane.showMessageDialog(null, "An error has occurred.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    /**
-     * Löscht eine Datei aus dem Dateisystem
-     * @param file
-     */
     public static void deleteFile(File file) {
         if (!file.delete()) {
             showError();
@@ -98,12 +87,14 @@ public class Utils {
     }
 
     /**
-     * Löscht den übergebenen Ordner rekursiv aus dem Dateisystem und der Dateiansicht im StorageAnalyzer.
-     * @param file Zu löschender Ordner
+     * Löscht rekursiv vom angegebenen Ordner ausgehend alle Dateien und Unterordner
+     * @param file Ordner
      */
     public static void deleteDirectory(File file) {
         File[] files = file.listFiles();
-        if (files == null || files.length == 0) return;
+        if (files == null || files.length == 0) {
+            return;
+        }
         for (File f : files) {
             if (f.isDirectory()) {
                 deleteDirectory(f);
@@ -114,9 +105,10 @@ public class Utils {
     }
 
     /**
-     * Subtrahiert rekursiv die übergebene Dateigröße von allen übergeordneten Ordnern.
-     * @param parent Übergeordneter Ordner
-     * @param size Größe der zu entfernenden Datei
+     * Geht alle Parent-Elemente des angegebenen Items durch und zieht von der Größe die angegebene Größe ab.
+     * Wird benutzt, um die Größe der Parent-Elemente zu updaten, wenn ein Item versteckt oder gelöscht wird.
+     * @param parent Angeklicktes Item
+     * @param size Die Größe des Items in bytes.
      */
     private static void updateSize(TreeItem<SearchItem> parent, long size) {
         parent.getValue().setSize(parent.getValue().getBytes() - size);
@@ -126,8 +118,10 @@ public class Utils {
     }
 
     /**
-     * Entfernt ein Element aus der Liste und aktualisiert mithilfe der {@link #updateSize updateSize} Methode die Speichergrößen der übergeordneten Ordner.
-     * @param view Zu entfernendes Element
+     * Nimmt das aktuell ausgewählte Item in der View, führt die Methode {@link #updateSize(TreeItem, long)} mit dem Parent
+     * davon und der Größe davon aus, und entfernt das aktuelle Element in der View.
+     * Wird beim Verstecken und Löschen von Dateien direkt über den StorageAnalyzer benötigt.
+     * @param view TreeTableView
      */
     public static void removeSelectedAndUpdateSize(TreeTableView<SearchItem> view) {
         TreeItem<SearchItem> item = view.getSelectionModel().getSelectedItem();

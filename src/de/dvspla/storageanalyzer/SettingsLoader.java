@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Ist für die Einstellungen in %appdata%/StorageAnalyzer/settings zuständig.
+ * Darin werden die hinzugefügten Pfade (im GUI links) gespeichert.
+ */
 public class SettingsLoader {
 
     private static SettingsLoader instance;

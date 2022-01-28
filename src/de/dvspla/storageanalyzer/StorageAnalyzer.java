@@ -1,6 +1,7 @@
 package de.dvspla.storageanalyzer;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +10,19 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * Hauptklasse, vor der JavaFX main().
+ * Stellt sicher, dass das Programm nur mit Java 8 gestartet wird (wg. JavaFX), indem es versucht,
+ * Java bei "C:\Program Files\Java\jdk1.8.0_291\" zu benutzen, um das Programm zu starten.
+ * Wenn das fehlschlägt, muss der Benutzer einen gültigen Java 8 Pfad auswählen,
+ * der dann in %appdata%\StorageAnalyzer\.javapath gespeichert wird.
+ * Dann wird, wenn das Programm nicht mit Java 8 ausgeführt wurde, versucht, es nochmal mit der javaw.exe des
+ * gespeicherten Pfads auszuführen.<br>
+ * Wenn das Argument "java8" existiert, wird die Java Version überprüft (wenn es nicht Java 8 ist, muss man wieder
+ * einen Java 8 Ordner auswählen) und die GUI main() ausgeführt. Ansonsten wird alles oben genannte mit der Überprüfung
+ * des Pfads durchgeführt. Das Argument "java8" wird übergeben, wenn das Programm mit der (vorraussichtlich) gültigen
+ * Java 8 Version ausgeführt wird.
+ */
 public class StorageAnalyzer {
 
     public static void main(String[] args) {
@@ -26,6 +40,7 @@ public class StorageAnalyzer {
             return;
         }
         try {
+            // Der aktuelle Pfad, an dem das Programm gerade ausgeführt wird, damit man es später mit der javaw.exe von Java 8 ausführen kann.
             File file = new File(StorageAnalyzer.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 
             String path;
@@ -41,6 +56,7 @@ public class StorageAnalyzer {
                 writer.close();
             }
 
+            // Solange der Benutzer keinen gültigen Java Ordner auswählt, wird er nach dem Pfad gefragt.
             Scanner scanner;
             File javaDir = null;
             while (javaDir == null) {
@@ -55,6 +71,7 @@ public class StorageAnalyzer {
                     }
                 } else {
                     selectJavaPath(pathFile);
+                    javaDir = null;
                 }
                 scanner.close();
             }
@@ -72,7 +89,9 @@ public class StorageAnalyzer {
     }
 
     private static boolean isInvalidJavaDir(File file) {
-        if (file == null) return true;
+        if (file == null) {
+            return true;
+        }
         File javaCheck = new File(file, "bin\\javaw.exe");
         return !javaCheck.exists();
     }
@@ -96,7 +115,9 @@ public class StorageAnalyzer {
             return;
         }
 
-        if (isInvalidJavaDir(f)) return;
+        if (isInvalidJavaDir(f)) {
+            return;
+        }
 
         FileWriter writer = new FileWriter(pathFile);
         writer.append(f.getAbsolutePath());

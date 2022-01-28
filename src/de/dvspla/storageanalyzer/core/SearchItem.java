@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Repräsentiert eine Datei in der Liste aller Dateien im GUI.
+ */
 public class SearchItem {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -58,6 +61,11 @@ public class SearchItem {
         return file;
     }
 
+    /**
+     * Setzt die Größe des Items (wird beim Einlesen gesetzt) in bytes. Dabei wird zusätzlich {@link #size} in
+     * einfacher lesbaren Größen (MB, GB) geupdated, was später im GUI angezeigt wird.
+     * @param bytes Bytes
+     */
     public void setSize(long bytes) {
         this.bytes = bytes;
         if (bytes < 1024) {
