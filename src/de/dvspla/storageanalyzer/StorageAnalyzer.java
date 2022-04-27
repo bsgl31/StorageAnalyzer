@@ -97,7 +97,7 @@ public class StorageAnalyzer {
     }
 
     private static void executeJava8(String javaPath, String filePath) throws Exception {
-        Runtime.getRuntime().exec(javaPath + " -jar " + filePath + " java8");
+        Runtime.getRuntime().exec("\"" + javaPath + "\"" + " -jar \"" + filePath + "\" java8");
     }
 
     private static void selectJavaPath(File pathFile) throws IOException {
